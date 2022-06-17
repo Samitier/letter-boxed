@@ -12,8 +12,10 @@ const store = useGameStore();
 .word-input {
   font-weight: bold;
   font-size: 35px;
-  border-bottom: 5px solid black;
+  border-bottom: 3px solid black;
   text-align: center;
   text-transform: uppercase;
+  max-width: 22rem;
+  margin: auto;
 }
 </style>

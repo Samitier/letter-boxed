@@ -1,7 +1,7 @@
 <template>
   <div class="game-actions">
-    <button @click="store.removeLastLetter()">Delete</button>
-    <button @click="store.playWord()">Enter</button>
+    <button @click="store.removeLastLetter()">Esborrar</button>
+    <button @click="store.playWord()">Confirmar</button>
   </div>
 </template>
 

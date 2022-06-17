@@ -1,15 +1,15 @@
 <template>
   <div class="container-box">
     <div class="side" v-for="side of store.letters">
-      <div class="letter" v-for="letter of side">
-        <button
-          class="letter-button"
-          :class="{ used: isLetterUsed(letter) }"
-          @click="store.addLetter(letter)"
-        >
+      <div
+        v-for="letter of side"
+        class="letter"
+        :class="{ active: isLetterActive(letter), used: isLetterUsed(letter) }"
+      >
+        <button class="letter-button" @click="store.addLetter(letter)">
           {{ letter }}
         </button>
-        <div class="dot" :class="{ active: isLetterActive(letter) }" />
+        <div class="dot" @click="store.addLetter(letter)" />
       </div>
     </div>
   </div>
@@ -32,21 +32,19 @@ function isLetterActive(letter: string) {
 
 <style scoped>
 .container-box {
-  height: 600px;
-  margin-left: 100px;
-  padding: 50px;
-  position: relative;
+  height: 490px;
+  width: 490px;
+  padding-left: 5rem;
+  margin: auto;
 }
 .letter {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
 .letter-button {
   background: transparent;
   border: none;
   color: white;
-  font-weight: bold;
   font-size: 35px;
   text-transform: uppercase;
   cursor: pointer;
@@ -56,11 +54,11 @@ function isLetterActive(letter: string) {
 }
 
 .side {
-  width: 300px;
+  width: 330px;
   display: flex;
   justify-content: space-between;
   border-bottom: 5px solid black;
-  padding: 1.5rem;
+  padding: 1rem 2rem;
   position: absolute;
 }
 .side:nth-child(2) {
@@ -72,29 +70,35 @@ function isLetterActive(letter: string) {
 
 .side:nth-child(3) .letter {
   transform: rotateZ(180deg);
-  flex-direction: column-reverse;
 }
 .side:nth-child(3) .dot {
-  top: -2.2rem;
+  top: -1.65rem;
+  bottom: auto;
 }
 .side:nth-child(4) {
   transform: rotateZ(-90deg) translateY(-200px) translateX(-200px);
 }
-.letter-button.used {
-  color: black;
-}
 .dot {
   border-radius: 50%;
   background-color: white;
-  position: relative;
-  top: 2.2rem;
+  position: absolute;
+  bottom: -1.65rem;
+  left: 0;
+  right: 0;
   width: 1rem;
   height: 1rem;
   margin: auto;
   border: 2px solid black;
 }
 
-.dot.active {
+.letter.used .letter-button {
+  color: black;
+}
+
+.letter.active .dot {
   background-color: black;
+}
+.letter.active .letter-button {
+  font-weight: bold;
 }
 </style>

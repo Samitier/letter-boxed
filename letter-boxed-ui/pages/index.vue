@@ -1,5 +1,4 @@
 <template>
-  <h1>Welcome to the Letter boxed game</h1>
   <game-won-message />
   <div class="container">
     <div>
@@ -29,6 +28,12 @@ onMounted(() => {
 }
 body {
   background: #faa6a4;
+  margin: 0;
+}
+html,
+body,
+#__nuxt {
+  height: 100%;
 }
 </style>
 
@@ -38,5 +43,10 @@ body {
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 0.5rem;
 }
 </style>
