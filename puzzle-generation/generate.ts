@@ -75,7 +75,7 @@ export function getSolvableIn(puzzle: Puzzle) {
   );
 }
 
-const maxDepth = 2;
+const maxDepth = 1;
 function getNeededWords(
   remainingWords: string[],
   remainingLetters: string[],
@@ -109,15 +109,17 @@ function getNeededWords(
 }
 
 async function initPuzzle() {
-  while (true) {
+  let puzzle = getEmptyPuzzle();
+  puzzle.possibleWords = await getPossibleWords(puzzle);
+  for (let i = 0; i < 15; ++i) {
     console.log("start puzzle generation");
-    const puzzle = getEmptyPuzzle();
+    const puzzle1 = getEmptyPuzzle();
     puzzle.possibleWords = await getPossibleWords(puzzle);
-    console.log(puzzle.possibleWords);
-    puzzle.solvableIn = getSolvableIn(puzzle);
-    if (puzzle.solvableIn !== Infinity) return puzzle;
-    console.log("invalid puzzle");
+    if (puzzle1.possibleWords.length > puzzle.possibleWords.length)
+      puzzle = puzzle1;
   }
+  await Deno.writeTextFile("./game.json", JSON.stringify(puzzle));
+  return puzzle;
 }
 
 console.log(await initPuzzle());
