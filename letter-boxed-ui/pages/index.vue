@@ -5,18 +5,15 @@
       <word-input />
       <played-words-list />
     </div>
-    <letter-box />
+    <div>
+      <letter-box />
+      <game-actions />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useGameStore } from "~~/store/useGameStore.";
-
-const myVar = ref("A");
-
-const myVariableThatReactsToMyVar = computed(() => {
-  return myVar.value + "hola";
-});
 
 const store = useGameStore();
 

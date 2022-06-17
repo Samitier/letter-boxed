@@ -12,6 +12,7 @@ export const useGameStore = defineStore("game", {
     possibleWords: [] as string[],
     gameState: GameState.Playing,
     playedWords: [] as string[],
+    currentWord: [] as string[],
   }),
   actions: {
     initPuzzle() {
@@ -20,6 +21,41 @@ export const useGameStore = defineStore("game", {
       );
       this.letters = letters;
       this.possibleWords = possibleWords;
+    },
+    addLetter(letter: string) {
+      const currentSide = this.letters.findIndex((side) =>
+        side.includes(letter)
+      );
+      const isCorrect =
+        !this.currentWord.length ||
+        !this.letters[currentSide].includes(
+          this.currentWord[this.currentWord.length - 1]
+        );
+      if (!isCorrect) return;
+      this.currentWord.push(letter);
+    },
+    removeLastLetter() {
+      this.currentWord.pop();
+    },
+    playWord() {
+      if (this.possibleWords.includes(this.currentWordAsString)) {
+        this.playedWords.push(this.currentWordAsString);
+        this.currentWord = [];
+      }
+    },
+  },
+  getters: {
+    currentWordAsString() {
+      return this.currentWord.join("");
+    },
+    playedLetters() {
+      return new Set([
+        ...this.currentWord,
+        ...this.playedWords.reduce(
+          (prev, curr) => [...prev, ...curr.split("")],
+          []
+        ),
+      ]);
     },
   },
 });

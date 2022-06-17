@@ -1,5 +1,6 @@
 <template>
-  <div class="word-input">{{ store.currentWordAsString }}</div>
+  <button @click="store.removeLastLetter()">Delete</button>
+  <button @click="store.playWord()">Enter</button>
 </template>
 
 <script setup lang="ts">
