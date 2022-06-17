@@ -45,6 +45,13 @@ export const useGameStore = defineStore("game", {
         this.playedWords.push(this.currentWordAsString);
         this.currentWord = [];
       }
+      const totalLettersCount = this.letters.reduce(
+        (total, side) => total + side.length,
+        0
+      );
+      if (this.playtedLetters.size === totalLettersCount) {
+        this.gameState = GameState.Won;
+      }
     },
   },
   getters: {
@@ -64,6 +71,14 @@ export const useGameStore = defineStore("game", {
       if (!this.playedWords.length) return "";
       const lastPlayedWord = this.playedWords[this.playedWords.length - 1];
       return lastPlayedWord.charAt(lastPlayedWord.length - 1);
+    },
+    activeLetter() {
+      return this.currentWord.length
+        ? this.currentWord[this.currentWord.length - 1]
+        : this.lastPlayedLetter;
+    },
+    isGameWon() {
+      return this.gameState === GameState.Won;
     },
   },
 });

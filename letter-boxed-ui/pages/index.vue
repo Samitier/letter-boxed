@@ -1,5 +1,6 @@
 <template>
   <h1>Welcome to the Letter boxed game</h1>
+  <game-won-message />
   <div class="container">
     <div>
       <word-input />
@@ -36,5 +37,6 @@ body {
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
 }
 </style>

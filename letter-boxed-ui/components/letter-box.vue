@@ -9,7 +9,7 @@
         >
           {{ letter }}
         </button>
-        <div class="dot"></div>
+        <div class="dot" :class="{ active: isLetterActive(letter) }" />
       </div>
     </div>
   </div>
@@ -24,6 +24,10 @@ const store = useGameStore();
 function isLetterUsed(letter: string) {
   return store.playedLetters.has(letter);
 }
+
+function isLetterActive(letter: string) {
+  return store.activeLetter === letter;
+}
 </script>
 
 <style scoped>
@@ -32,6 +36,10 @@ function isLetterUsed(letter: string) {
   margin-left: 100px;
   padding: 50px;
   position: relative;
+}
+.letter {
+  display: flex;
+  flex-direction: column;
 }
 
 .letter-button {
@@ -64,6 +72,10 @@ function isLetterUsed(letter: string) {
 
 .side:nth-child(3) .letter {
   transform: rotateZ(180deg);
+  flex-direction: column-reverse;
+}
+.side:nth-child(3) .dot {
+  top: -2.2rem;
 }
 .side:nth-child(4) {
   transform: rotateZ(-90deg) translateY(-200px) translateX(-200px);
@@ -73,9 +85,16 @@ function isLetterUsed(letter: string) {
 }
 .dot {
   border-radius: 50%;
-  background-color: black;
+  background-color: white;
+  position: relative;
+  top: 2.2rem;
   width: 1rem;
   height: 1rem;
   margin: auto;
+  border: 2px solid black;
+}
+
+.dot.active {
+  background-color: black;
 }
 </style>
