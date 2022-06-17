@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import game from "../../puzzle-generation/game.json";
+import game from "../puzzle-generation-scripts/game.json";
 
 enum GameState {
   Lost,

@@ -15,5 +15,13 @@
 
 * Execute the program
 ```
-> deno run generate.ts
+> deno run --allow-read  --allow-write generate.ts
+```
+The generated puzzle will appear in `game.json`
+
+### Testing
+
+* Execute
+```
+> deno test --allow-read  generate.spec.ts
 ```
