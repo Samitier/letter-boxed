@@ -3,11 +3,13 @@
     <div class="side" v-for="side of store.letters">
       <div class="letter" v-for="letter of side">
         <button
+          class="letter-button"
           :class="{ used: isLetterUsed(letter) }"
           @click="store.addLetter(letter)"
         >
           {{ letter }}
         </button>
+        <div class="dot"></div>
       </div>
     </div>
   </div>
@@ -26,11 +28,25 @@ function isLetterUsed(letter: string) {
 
 <style scoped>
 .container-box {
-  width: 300px;
-  height: 300px;
-  margin: 0;
+  height: 600px;
+  margin-left: 100px;
   padding: 50px;
+  position: relative;
 }
+
+.letter-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 35px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.letter-button:active {
+  opacity: 0.5;
+}
+
 .side {
   width: 300px;
   display: flex;
@@ -40,21 +56,26 @@ function isLetterUsed(letter: string) {
   position: absolute;
 }
 .side:nth-child(2) {
-  transform: translateX(300px) rotateZ(90deg);
-  transform-origin: center center;
+  transform: rotateZ(90deg) translateY(-200px) translateX(200px);
 }
 .side:nth-child(3) {
-  transform: translateY(300px);
-  transform-origin: center center;
-}
-.side:nth-child(4) {
-  transform: translateX(-150px) rotateZ(-90deg);
-  transform-origin: center center;
+  transform: translateY(400px) rotateZ(180deg);
 }
 
-.used {
-  font-weight: bold;
-  color: white;
+.side:nth-child(3) .letter {
+  transform: rotateZ(180deg);
+}
+.side:nth-child(4) {
+  transform: rotateZ(-90deg) translateY(-200px) translateX(-200px);
+}
+.letter-button.used {
+  color: black;
+}
+.dot {
+  border-radius: 50%;
   background-color: black;
+  width: 1rem;
+  height: 1rem;
+  margin: auto;
 }
 </style>

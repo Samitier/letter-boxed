@@ -26,6 +26,9 @@ onMounted(() => {
 * {
   box-sizing: border-box;
 }
+body {
+  background: #faa6a4;
+}
 </style>
 
 <style scoped>

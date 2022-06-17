@@ -26,11 +26,14 @@ export const useGameStore = defineStore("game", {
       const currentSide = this.letters.findIndex((side) =>
         side.includes(letter)
       );
-      const isCorrect =
-        !this.currentWord.length ||
-        !this.letters[currentSide].includes(
+      let isCorrect = false;
+      if (!this.currentWord.length) {
+        isCorrect = !this.lastPlayedLetter || this.lastPlayedLetter === letter;
+      } else {
+        isCorrect = !this.letters[currentSide].includes(
           this.currentWord[this.currentWord.length - 1]
         );
+      }
       if (!isCorrect) return;
       this.currentWord.push(letter);
     },
@@ -56,6 +59,11 @@ export const useGameStore = defineStore("game", {
           []
         ),
       ]);
+    },
+    lastPlayedLetter() {
+      if (!this.playedWords.length) return "";
+      const lastPlayedWord = this.playedWords[this.playedWords.length - 1];
+      return lastPlayedWord.charAt(lastPlayedWord.length - 1);
     },
   },
 });
