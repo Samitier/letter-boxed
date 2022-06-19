@@ -17,4 +17,8 @@ const store = useGameStore();
   gap: 1rem;
   justify-content: center;
 }
+
+button {
+  padding: 0.5rem 1.3rem;
+}
 </style>

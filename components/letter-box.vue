@@ -32,8 +32,8 @@ function isLetterActive(letter: string) {
 
 <style scoped>
 .container-box {
-  height: 490px;
-  width: 490px;
+  height: 30rem;
+  width: 30rem;
   padding-left: 5rem;
   margin: auto;
 }
@@ -45,7 +45,7 @@ function isLetterActive(letter: string) {
   background: transparent;
   border: none;
   color: white;
-  font-size: 35px;
+  font-size: 2rem;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -54,7 +54,7 @@ function isLetterActive(letter: string) {
 }
 
 .side {
-  width: 330px;
+  width: 20rem;
   display: flex;
   justify-content: space-between;
   border-bottom: 5px solid black;
@@ -62,10 +62,10 @@ function isLetterActive(letter: string) {
   position: absolute;
 }
 .side:nth-child(2) {
-  transform: rotateZ(90deg) translateY(-200px) translateX(200px);
+  transform: rotateZ(90deg) translateY(-12.1rem) translateX(12.1rem);
 }
 .side:nth-child(3) {
-  transform: translateY(400px) rotateZ(180deg);
+  transform: translateY(24.2rem) rotateZ(180deg);
 }
 
 .side:nth-child(3) .letter {
@@ -76,7 +76,7 @@ function isLetterActive(letter: string) {
   bottom: auto;
 }
 .side:nth-child(4) {
-  transform: rotateZ(-90deg) translateY(-200px) translateX(-200px);
+  transform: rotateZ(-90deg) translateY(-12.1rem) translateX(-12.1rem);
 }
 .dot {
   border-radius: 50%;
@@ -89,6 +89,7 @@ function isLetterActive(letter: string) {
   height: 1rem;
   margin: auto;
   border: 2px solid black;
+  cursor: pointer;
 }
 
 .letter.used .letter-button {
@@ -100,5 +101,9 @@ function isLetterActive(letter: string) {
 }
 .letter.active .letter-button {
   font-weight: bold;
+  color: #b3005d;
+}
+.letter.active .dot {
+  background-color: #b3005d;
 }
 </style>

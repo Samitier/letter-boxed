@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
+import { removeAccents } from "~~/puzzle-generation-scripts/src/utils";
 import game from "../puzzle-generation-scripts/game.json";
 
 enum GameState {
-  Lost,
   Won,
   Playing,
 }
@@ -11,15 +11,17 @@ export const useGameStore = defineStore("game", {
   state: () => ({
     letters: [] as string[][],
     possibleWords: [] as string[],
+    wordsToWinCount: 0,
     gameState: GameState.Playing,
     playedWords: [] as string[],
     currentWord: [] as string[],
   }),
   actions: {
     initPuzzle() {
-      const { letters, possibleWords } = game;
+      const { letters, possibleWords, wordsToWinCount } = game;
       this.letters = letters;
       this.possibleWords = possibleWords;
+      this.wordsToWinCount = wordsToWinCount;
     },
     addLetter(letter: string) {
       const currentSide = this.letters.findIndex((side) =>
@@ -40,10 +42,11 @@ export const useGameStore = defineStore("game", {
       this.currentWord.pop();
     },
     playWord() {
-      if (!this.possibleWords.includes(this.currentWordAsString)) {
-        return;
-      }
-      this.playedWords.push(this.currentWordAsString);
+      const word = this.possibleWords.find(
+        (w) => removeAccents(w) === this.currentWordAsString
+      );
+      if (!word) return;
+      this.playedWords.push(word);
       this.currentWord = [
         this.currentWordAsString.charAt(this.currentWordAsString.length - 1),
       ];

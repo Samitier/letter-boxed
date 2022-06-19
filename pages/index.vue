@@ -35,6 +35,17 @@ body,
 #__nuxt {
   height: 100%;
 }
+
+@media screen and (max-width: 700px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 420px) {
+  html {
+    font-size: 12px;
+  }
+}
 </style>
 
 <style scoped>
@@ -48,5 +59,17 @@ body,
   max-width: 1000px;
   margin: auto;
   padding: 0.5rem;
+}
+
+@media screen and (max-width: 700px) {
+  body {
+    font-size: 5px;
+  }
+  .container {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 3rem;
+    padding: 5rem 0.5rem;
+  }
 }
 </style>
