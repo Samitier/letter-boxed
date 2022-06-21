@@ -96,7 +96,7 @@ function isLetterActive(letter: string) {
   color: black;
 }
 
-.letter.active .dot {
+.letter.used .dot {
   background-color: black;
 }
 .letter.active .letter-button {
