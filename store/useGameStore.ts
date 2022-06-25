@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { removeAccents } from "~~/puzzle-generation-scripts/src/utils";
-import game from "../puzzle-generation-scripts/game.json";
+import game from "~~/assets/game.json";
 
 enum GameState {
   Won,

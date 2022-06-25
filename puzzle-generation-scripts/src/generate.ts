@@ -108,7 +108,7 @@ export async function generatePuzzleFile() {
     console.log(" - Trying new letter combinations...");
     puzzle = await generatePuzzle(wordList);
     if (puzzle.wordsToWinCount > 0) {
-      await Deno.writeTextFile("./game.json", JSON.stringify(puzzle));
+      await Deno.writeTextFile("../assets/game.json", JSON.stringify(puzzle));
       break;
     }
     console.log(" - The puzzle is not winnable :(");
