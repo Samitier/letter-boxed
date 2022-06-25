@@ -64,6 +64,9 @@ function isLetterActive(letter: string) {
 .side:nth-child(2) {
   transform: rotateZ(90deg) translateY(-12.1rem) translateX(12.1rem);
 }
+.side:nth-child(2) .letter-button {
+  transform: rotateZ(-90deg);
+}
 .side:nth-child(3) {
   transform: translateY(24.2rem) rotateZ(180deg);
 }
@@ -77,6 +80,9 @@ function isLetterActive(letter: string) {
 }
 .side:nth-child(4) {
   transform: rotateZ(-90deg) translateY(-12.1rem) translateX(-12.1rem);
+}
+.side:nth-child(4) .letter-button {
+  transform: rotateZ(90deg);
 }
 .dot {
   border-radius: 50%;

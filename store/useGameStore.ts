@@ -39,7 +39,12 @@ export const useGameStore = defineStore("game", {
       this.currentWord.push(letter);
     },
     removeLastLetter() {
-      this.currentWord.pop();
+      if (this.currentWord.length === 1 && this.playedWords.length) {
+        const lastWord = this.playedWords.pop();
+        this.currentWord = lastWord.split("");
+      } else {
+        this.currentWord.pop();
+      }
     },
     playWord() {
       const word = this.possibleWords.find(

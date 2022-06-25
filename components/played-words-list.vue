@@ -9,7 +9,7 @@
     >
   </div>
   <div class="small-text">
-    Intenta resolde-ho en {{ store.wordsToWinCount }} paraules.
+    Intenta resoldre-ho en {{ store.wordsToWinCount }} paraules o menys.
   </div>
 </template>
 
