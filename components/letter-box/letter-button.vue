@@ -39,6 +39,7 @@ function addLetter() {
   text-transform: uppercase;
   cursor: pointer;
   padding: 1rem;
+  width: 4rem;
 }
 .letter-button:active {
   opacity: 0.5;

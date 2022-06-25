@@ -7,26 +7,18 @@
         :side="getSide(i)"
       />
     </div>
+    <letter-box-line-canvas class="canvas" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { Side } from "./side.model";
+import { getSideFromIndex } from "./side.model";
 import { useGameStore } from "~~/store/useGameStore";
 
 const store = useGameStore();
 
 function getSide(index: number) {
-  switch (index) {
-    case 0:
-      return Side.top;
-    case 1:
-      return Side.right;
-    case 2:
-      return Side.bottom;
-    default:
-      return Side.left;
-  }
+  return getSideFromIndex(index);
 }
 </script>
 
@@ -54,5 +46,12 @@ function getSide(index: number) {
 }
 .left {
   transform: rotateZ(-90deg) translateY(-12.5rem) translateX(-12.5rem);
+}
+
+.canvas {
+  width: 20rem;
+  height: 20rem;
+  margin-top: 5.3rem;
+  border: 5px solid transparent;
 }
 </style>
