@@ -4,7 +4,7 @@ export const defaultLettersPerSide = 3;
 export const puzzleInitValue = {
   letters: [] as string[][],
   possibleWords: [] as string[],
-  wordsToWinCount: 0,
+  wordsToWin: [],
 };
 
 export type Puzzle = typeof puzzleInitValue;

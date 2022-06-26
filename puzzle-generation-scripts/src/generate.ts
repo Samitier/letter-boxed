@@ -47,20 +47,20 @@ function getPossibleWords(letters: string[][] = [], wordList: string[]) {
   return possibleWords;
 }
 
-function getWordsToWinCount(
+function getWordsToWin(
   letters: string[][],
   possibleWords: string[],
-  amountOfPlays = 200,
-  threshold = 15
+  amountOfPlays = 250,
+  threshold = 8
 ) {
-  const wordsToWin = [];
+  const wordsToWin = [] as string[][];
   for (let i = 0; i < amountOfPlays; ++i) {
     let unvisitedWords = [...possibleWords.map((w) => removeAccents(w))];
     let unvisitedLetters = letters.reduce(
       (lettersAcc, letters) => [...lettersAcc, ...letters],
       [] as string[]
     );
-    let wordCount = 0;
+    let usedWords = [] as string[];
     let word = "";
     let nextPossibleWords = unvisitedWords;
     while (
@@ -74,14 +74,14 @@ function getWordsToWinCount(
       nextPossibleWords = unvisitedWords.filter((w) =>
         w.startsWith(word.charAt(word.length - 1))
       );
-      ++wordCount;
+      usedWords.push(word);
     }
-    if (!unvisitedLetters.length) wordsToWin.push(wordCount);
+    if (!unvisitedLetters.length) wordsToWin.push(usedWords);
   }
-  if (!wordsToWin.length) wordsToWin.push(0);
-  const total = Math.min(...wordsToWin);
-  if (total > threshold) return 0;
-  return total;
+  if (!wordsToWin.length) wordsToWin.push([]);
+  const total = Math.min(...wordsToWin.map((w) => w.length));
+  if (total > threshold) return [];
+  return wordsToWin.find((w) => w.length === total);
 }
 
 function generatePuzzle(
@@ -91,11 +91,11 @@ function generatePuzzle(
 ) {
   const letters = getRandomPuzzleLetters(sides, lettersPerSide);
   const possibleWords = getPossibleWords(letters, wordList);
-  const wordsToWinCount = getWordsToWinCount(letters, possibleWords);
+  const wordsToWin = getWordsToWin(letters, possibleWords);
   const puzzle: Puzzle = {
     letters,
     possibleWords,
-    wordsToWinCount,
+    wordsToWin,
   };
   return puzzle;
 }
@@ -107,7 +107,7 @@ export async function generatePuzzleFile() {
   while (true) {
     console.log(" - Trying new letter combinations...");
     puzzle = await generatePuzzle(wordList);
-    if (puzzle.wordsToWinCount > 0) {
+    if (puzzle.wordsToWin.length > 0) {
       await Deno.writeTextFile("../assets/game.json", JSON.stringify(puzzle));
       break;
     }

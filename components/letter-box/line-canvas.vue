@@ -25,7 +25,7 @@ onMounted(() => {
 
 watchEffect(() => {
   clearCanvas();
-  for (let word of store.playedWords) {
+  for (let word of store.playedWordsWithoutAccents) {
     for (let i = 1; i < word.length; ++i) {
       const isDotted = false;
       renderPath(word.charAt(i - 1), word.charAt(i), isDotted);

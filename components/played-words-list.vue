@@ -1,15 +1,24 @@
 <template>
-  <div class="text">
-    Has trobat {{ store.playedWords.length }}
-    {{ store.playedWords.length === 1 ? "paraula" : "paraules" }}
+  <div v-if="!store.isGameWon" class="text">
+    Has trobat {{ numberOfWordsText }}
+  </div>
+  <div v-else class="text">
+    Has guanyat amb {{ numberOfWordsText }}. Felicitats!
   </div>
   <div class="word-list">
     <span class="word" v-for="(word, i) of store.playedWords">
       {{ word }}{{ i === store.playedWords.length - 1 ? "" : " - " }}</span
     >
   </div>
-  <div class="small-text">
+  <div v-if="!store.isGameWon" class="small-text">
     Intenta resoldre-ho en {{ store.wordsToWinCount }} paraules o menys.
+  </div>
+  <div
+    v-else-if="store.playedWords.length > store.wordsToWinCount"
+    class="small-text"
+  >
+    Ara intenta resoldre-ho amb {{ store.wordsToWinCount }} paraules o menys.
+    <a @click="store.resetGame()">Torna a intentar-ho.</a>
   </div>
 </template>
 
@@ -17,6 +26,13 @@
 import { useGameStore } from "~~/store/useGameStore";
 
 const store = useGameStore();
+
+const numberOfWordsText = computed(
+  () =>
+    `${store.playedWords.length} ${
+      store.playedWords.length === 1 ? "paraula" : "paraules"
+    }`
+);
 </script>
 
 <style>

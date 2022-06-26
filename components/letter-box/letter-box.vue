@@ -1,5 +1,5 @@
 <template>
-  <div class="container-box">
+  <div class="container-box" :class="{ animate: isAnimating }">
     <div class="side" :class="getSide(i)" v-for="(side, i) of store.letters">
       <letter-button
         v-for="letter of side"
@@ -8,18 +8,27 @@
       />
     </div>
     <letter-box-line-canvas class="canvas" />
+    <letter-box-feedback-text />
   </div>
 </template>
 
 <script setup lang="ts">
 import { getSideFromIndex } from "./side.model";
-import { useGameStore } from "~~/store/useGameStore";
+import { useGameStore, NotificationType } from "~~/store/useGameStore";
 
 const store = useGameStore();
+const animationMs = 150;
+const isAnimating = ref(false);
 
 function getSide(index: number) {
   return getSideFromIndex(index);
 }
+
+watchEffect(() => {
+  if (store.notification === NotificationType.None) return;
+  isAnimating.value = true;
+  setTimeout(() => (isAnimating.value = false), animationMs);
+});
 </script>
 
 <style scoped>
@@ -28,6 +37,8 @@ function getSide(index: number) {
   width: 30rem;
   padding-left: 5rem;
   margin: auto;
+  position: relative;
+  transition: transform 0.15s linear;
 }
 
 .side {
@@ -53,5 +64,9 @@ function getSide(index: number) {
   height: 20rem;
   margin-top: 5.3rem;
   border: 5px solid transparent;
+}
+
+.animate {
+  transform: scale(1.1);
 }
 </style>

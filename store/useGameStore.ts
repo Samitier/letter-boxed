@@ -2,9 +2,10 @@ import { defineStore } from "pinia";
 import { removeAccents } from "~~/puzzle-generation-scripts/src/utils";
 import game from "~~/assets/game.json";
 
-enum GameState {
-  Won,
-  Playing,
+export enum NotificationType {
+  Error,
+  Success,
+  None,
 }
 
 export const useGameStore = defineStore("game", {
@@ -12,16 +13,16 @@ export const useGameStore = defineStore("game", {
     letters: [] as string[][],
     possibleWords: [] as string[],
     wordsToWinCount: 0,
-    gameState: GameState.Playing,
     playedWords: [] as string[],
     currentWord: [] as string[],
+    notification: NotificationType.None,
   }),
   actions: {
     initPuzzle() {
-      const { letters, possibleWords, wordsToWinCount } = game;
+      const { letters, possibleWords, wordsToWin } = game;
       this.letters = letters;
       this.possibleWords = possibleWords;
-      this.wordsToWinCount = wordsToWinCount;
+      this.wordsToWinCount = wordsToWin.length;
     },
     addLetter(letter: string) {
       const currentSide = this.letters.findIndex((side) =>
@@ -39,8 +40,11 @@ export const useGameStore = defineStore("game", {
       this.currentWord.push(letter);
     },
     removeLastLetter() {
-      if (this.currentWord.length === 1 && this.playedWords.length) {
-        const lastWord = this.playedWords.pop();
+      if (
+        this.currentWord.length === 1 &&
+        this.playedWordsWithoutAccents.length
+      ) {
+        const lastWord = removeAccents(this.playedWords.pop());
         this.currentWord = lastWord.split("");
       } else {
         this.currentWord.pop();
@@ -50,32 +54,38 @@ export const useGameStore = defineStore("game", {
       const word = this.possibleWords.find(
         (w) => removeAccents(w) === this.currentWordAsString
       );
+      this.notification = word
+        ? NotificationType.Success
+        : NotificationType.Error;
       if (!word) return;
       this.playedWords.push(word);
       this.currentWord = [
         this.currentWordAsString.charAt(this.currentWordAsString.length - 1),
       ];
-      const totalLettersCount = this.letters.reduce(
-        (total, side) => total + side.length,
-        0
-      );
-      if (this.playedLetters.size === totalLettersCount) {
-        this.gameState = GameState.Won;
-      }
+    },
+    hideNotification() {
+      this.notification = NotificationType.None;
+    },
+    resetGame() {
+      this.playedLetters = [];
+      this.currentWord = [];
     },
   },
   getters: {
+    playedWordsWithoutAccents() {
+      return this.playedWords.map((w) => removeAccents(w));
+    },
+    playedWordsLetters() {
+      return this.playedWordsWithoutAccents.reduce(
+        (prev, curr) => [...prev, ...curr.split("")],
+        []
+      );
+    },
     currentWordAsString() {
       return this.currentWord.join("");
     },
     playedLetters() {
-      return new Set([
-        ...this.currentWord,
-        ...this.playedWords.reduce(
-          (prev, curr) => [...prev, ...curr.split("")],
-          []
-        ),
-      ]);
+      return new Set([...this.currentWord, ...this.playedWordsLetters]);
     },
     activeLetter() {
       return this.currentWord.length
@@ -83,7 +93,12 @@ export const useGameStore = defineStore("game", {
         : "";
     },
     isGameWon() {
-      return this.gameState === GameState.Won;
+      const totalLettersCount = this.letters.reduce(
+        (total, side) => total + side.length,
+        0
+      );
+      const playedWordsUniqueLetters = new Set([...this.playedWordsLetters]);
+      return playedWordsUniqueLetters.size === totalLettersCount;
     },
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <div class="game-actions">
+  <div v-if="!store.isGameWon" class="game-actions">
     <button @click="store.removeLastLetter()">Esborrar</button>
     <button @click="store.playWord()">Confirmar</button>
   </div>
