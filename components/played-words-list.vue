@@ -18,7 +18,10 @@
     class="small-text"
   >
     Ara intenta resoldre-ho amb {{ store.wordsToWinCount }} paraules o menys.
-    <a @click="store.resetGame()">Torna a intentar-ho.</a>
+    <br />
+    <a class="reset" href="#" @click="store.resetGame()"
+      >Torna a intentar-ho.</a
+    >
   </div>
 </template>
 

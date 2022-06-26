@@ -67,7 +67,7 @@ export const useGameStore = defineStore("game", {
       this.notification = NotificationType.None;
     },
     resetGame() {
-      this.playedLetters = [];
+      this.playedWords = [];
       this.currentWord = [];
     },
   },
