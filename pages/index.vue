@@ -17,8 +17,8 @@ import { useGameStore } from "~~/store/useGameStore";
 
 const store = useGameStore();
 
-onMounted(() => {
-  store.initPuzzle();
+onMounted(async () => {
+  await store.initPuzzle();
 });
 </script>
 

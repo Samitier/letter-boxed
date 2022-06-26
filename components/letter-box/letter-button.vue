@@ -40,6 +40,7 @@ function addLetter() {
   cursor: pointer;
   padding: 1rem;
   width: 4rem;
+  user-select: none;
 }
 .letter-button:active {
   opacity: 0.5;

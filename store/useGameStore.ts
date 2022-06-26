@@ -10,6 +10,7 @@ export enum NotificationType {
 
 export const useGameStore = defineStore("game", {
   state: () => ({
+    date: new Date().toLocaleDateString("sv").substring(0, 10),
     letters: [] as string[][],
     possibleWords: [] as string[],
     wordsToWinCount: 0,
@@ -18,7 +19,11 @@ export const useGameStore = defineStore("game", {
     notification: NotificationType.None,
   }),
   actions: {
-    initPuzzle() {
+    async initPuzzle() {
+      let problem = game;
+      try {
+        problem = await import(`~~/assets/${this.date}.json`);
+      } catch (e) {}
       const { letters, possibleWords, wordsToWin } = game;
       this.letters = letters;
       this.possibleWords = possibleWords;

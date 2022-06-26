@@ -50,7 +50,7 @@ function getPossibleWords(letters: string[][] = [], wordList: string[]) {
 function getWordsToWin(
   letters: string[][],
   possibleWords: string[],
-  amountOfPlays = 250,
+  amountOfPlays = 350,
   threshold = 8
 ) {
   const wordsToWin = [] as string[][];
@@ -100,6 +100,15 @@ function generatePuzzle(
   return puzzle;
 }
 
+async function existsFile(filename) {
+  try {
+    await Deno.open(filename);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export async function generatePuzzleFile() {
   const wordList = await getWordList();
   console.log("Starting puzzle generation...");
@@ -108,7 +117,15 @@ export async function generatePuzzleFile() {
     console.log(" - Trying new letter combinations...");
     puzzle = await generatePuzzle(wordList);
     if (puzzle.wordsToWin.length > 0) {
-      await Deno.writeTextFile("../assets/game.json", JSON.stringify(puzzle));
+      let date = new Date();
+      const getFilename = (date: Date) => {
+        const dateAsString = date.toLocaleDateString("sv").substring(0, 10);
+        return `../assets/${dateAsString}.json`;
+      };
+      while (await existsFile(getFilename(date))) {
+        date.setDate(date.getDate() + 1);
+      }
+      await Deno.writeTextFile(getFilename(date), JSON.stringify(puzzle));
       break;
     }
     console.log(" - The puzzle is not winnable :(");
